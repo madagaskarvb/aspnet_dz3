@@ -1,0 +1,155 @@
+﻿@page
+@model WebApplication2.Pages.Catalog.IndexModel
+@{
+    ViewData["Title"] = "Каталог";
+}
+
+<div class="container my-4">
+
+    <!-- Заголовок -->
+    <div class="mb-4">
+        <h1 class="h3 page-title">Каталог товаров</h1>
+        <div class="text-center">
+            <span class="badge bg-primary rounded-pill">@Model.Products.Count товаров</span>
+        </div>
+    </div>
+
+    <!-- ===== ПАНЕЛЬ ФИЛЬТРОВ ===== -->
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4 tag-filter-panel">
+        <a asp-page="/Catalog/Index"
+           class="btn btn-sm btn-outline-secondary rounded-pill tag-filter @(Model.SelectedTag == null ? "active" : "")"
+           data-tag="">
+            Все
+        </a>
+
+        @foreach (var tag in Model.Tags)
+        {
+            <a asp-page="/Catalog/Index"
+               asp-route-tag="@tag"
+               class="btn btn-sm btn-outline-secondary rounded-pill tag-filter @(Model.SelectedTag == tag ? "active" : "")"
+               data-tag="@tag">
+                @tag
+            </a>
+        }
+    </div>
+
+    <!-- ===== СЕТКА ТОВАРОВ ===== -->
+    @if (Model.Products.Count == 0)
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            По фильтру «@Model.SelectedTag» ничего не найдено.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var product in Model.Products)
+            {
+                // ==== Логика классов (это и есть задание) ====
+                // Рамка: приоритет — «нет в наличии» > «большая скидка» > обычная
+                string borderClass = product.IsOutOfStock ? "border-danger border-2"
+                                    : product.IsBigDiscount ? "border-success border-2"
+                                    : "border-light";
+
+                // Тень: только у «хитов»
+                string shadowClass = product.IsHit ? "shadow-sm" : "shadow-none";
+
+                // Класс самой карточки
+                string cardClass = $"card h-100 product-card position-relative {borderClass} {shadowClass}"
+                                   + (product.IsOutOfStock ? " card-out-of-stock" : "");
+
+                // ==== Рендер ====
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="@cardClass">
+
+                        <!-- Бейджи (могут быть несколько) -->
+                        <div class="position-absolute top-0 start-0 p-2 d-flex flex-column gap-1"
+                             style="z-index: 2;">
+
+                            @if (product.IsOutOfStock)
+                            {
+                                <span class="badge bg-danger">Нет в наличии</span>
+                            }
+                            @if (product.IsHit)
+                            {
+                                <span class="badge bg-warning text-dark">🔥 ХИТ</span>
+                            }
+                            @if (product.IsBigDiscount)
+                            {
+                                <span class="badge bg-success">Большая скидка</span>
+                            }
+                        </div>
+
+                        <img src="@product.ImageUrl"
+                             class="card-img-top img-fluid @(product.IsOutOfStock ? "opacity-50" : "")"
+                             alt="@product.Name"
+                             style="height: 200px; object-fit: cover;" />
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text text-muted small flex-grow-1">
+                                @product.Description
+                            </p>
+
+                            <!-- Блок «Цены» -->
+                            <div class="mb-3">
+                                <div class="text-muted small mb-1">Цены</div>
+
+                                @if (product.HasDiscount)
+                                {
+                                    <ul class="list-group list-group-flush list-group-horizontal-md border rounded">
+                                        <li class="list-group-item flex-fill text-center">
+                                            <div class="text-muted small">Обычная</div>
+                                            <div class="text-muted text-decoration-line-through">
+                                                @product.OldPrice!.Value.ToString("N0") ₽
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item flex-fill text-center bg-light">
+                                            <div class="small fw-semibold text-success">
+                                                Со скидкой
+                                                <span class="badge bg-success ms-1">−@product.DiscountPercent%</span>
+                                            </div>
+                                            <div class="fw-bold text-success fs-5">
+                                                @product.Price.ToString("N0") ₽
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <ul class="list-group list-group-flush border rounded">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
+                                            <span class="small fw-semibold">Цена</span>
+                                            <span class="fw-bold text-primary fs-5">
+                                                @product.Price.ToString("N0") ₽
+                                            </span>
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+
+                            <!-- Кнопка: disabled, если нет в наличии -->
+                            @if (product.IsOutOfStock)
+                            {
+                                <button type="button" class="btn btn-secondary w-100" disabled>
+                                    Нет в наличии
+                                </button>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page="/Cart/Index" asp-page-handler="Add" class="mt-auto">
+                                    <input type="hidden" name="id" value="@product.Id" />
+                                    <input type="hidden" name="returnUrl" value="@Url.Page("/Catalog/Index")" />
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        🛒 В корзину
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

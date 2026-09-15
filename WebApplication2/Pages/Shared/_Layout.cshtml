@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Витрина товаров</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <header>
+        <!-- ===== NAVBAR ===== -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container">
+
+                <!-- Логотип слева -->
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
+                    <img src="~/img/logo.svg" alt="Логотип" width="32" height="32" class="me-2" />
+                    <span class="fw-bold">Витрина</span>
+                </a>
+
+                <!-- Кнопка-бургер для мобильных -->
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Переключить навигацию">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Сворачиваемое меню -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    <!-- Левая группа ссылок -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Catalog/Index">Каталог</a>
+                            </li>                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Cart/Index">Корзина</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Админ</a>
+                        </li>
+                    </ul>
+
+                    <!-- Правая группа: кнопка "Войти" -->
+                    <div class="d-flex">
+                        <a class="btn btn-outline-light" href="#">Войти</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-4">
+        <div class="container py-3">
+            &copy; 2025 - Витрина товаров
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

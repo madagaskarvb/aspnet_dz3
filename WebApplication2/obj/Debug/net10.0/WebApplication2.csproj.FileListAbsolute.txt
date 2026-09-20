@@ -99,3 +99,4 @@ C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\We
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\oym3j5ytrx-{0}-e1uu8qnr3i-e1uu8qnr3i.gz
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\zt0mdot0v5-{0}-mjtga9pmm7-mjtga9pmm7.gz
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\dxqj2xv6zo-{0}-o846f5kr9q-o846f5kr9q.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\WebApplication2.sourcelink.json

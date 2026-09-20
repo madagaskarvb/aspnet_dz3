@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Витрина товаров</title>
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -13,7 +16,36 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/search.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/search.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/search.js" asp-append-version="true"></script>
+        <script src="~/js/cart.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/search.min.js" asp-append-version="true"></script>
+        <script src="~/js/cart.min.js" asp-append-version="true"></script>
+    </environment>
+
 </head>
+<!-- Контейнер для всплывающих уведомлений -->
+<div id="toastContainer"
+     class="position-fixed bottom-0 end-0 p-3"
+     style="z-index: 1080; max-width: 340px;">
+</div>
 <body>
     <header>
         <!-- ===== NAVBAR ===== -->
@@ -45,9 +77,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-page="/Catalog/Index">Каталог</a>
                             </li>                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Cart/Index">Корзина</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Cart/Index">
+                                    Корзина
+                                    <span class="badge bg-danger rounded-pill" id="cartBadge">0</span>
+                                </a>
+                            </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Админ</a>
                         </li>

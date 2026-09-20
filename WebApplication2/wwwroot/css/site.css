@@ -113,3 +113,54 @@
         margin-bottom: 1rem;
     }
 }
+
+/* =========================================================
+   AJAX-интерфейс: бейдж корзины и всплывающие уведомления
+   ========================================================= */
+
+/* Пульс бейджа при добавлении товара */
+#cartBadge {
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+    #cartBadge.badge-pulse {
+        animation: badgePulse 0.6s ease;
+    }
+
+@keyframes badgePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.5);
+        background-color: #ffca2c;
+    }
+
+    60% {
+        transform: scale(1.1);
+        background-color: #dc3545;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Тост-уведомления */
+.toast-message {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    font-size: 0.9rem;
+}
+
+    .toast-message.toast-hide {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+/* Кнопка «В корзину» в состоянии "Добавлено" */
+.add-to-cart.btn-success {
+    pointer-events: none;
+}

@@ -21,7 +21,11 @@ else
                                + (product.IsOutOfStock ? " card-out-of-stock" : "");
 
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="@cardClass">
+                <div class="@cardClass js-product-card"
+                     data-product-id="@product.Id"
+                     role="button"
+                     tabindex="0"
+                     style="cursor: pointer;">
 
                     <div class="position-absolute top-0 start-0 p-2 d-flex flex-column gap-1" style="z-index: 2;">
                         @if (product.IsOutOfStock)

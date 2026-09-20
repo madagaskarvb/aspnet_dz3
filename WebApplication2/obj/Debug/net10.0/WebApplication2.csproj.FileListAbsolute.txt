@@ -97,6 +97,10 @@ C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\We
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\ref\WebApplication2.dll
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\WebAppli.0DB3FC1A.Up2Date
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\oym3j5ytrx-{0}-e1uu8qnr3i-e1uu8qnr3i.gz
-C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\zt0mdot0v5-{0}-mjtga9pmm7-mjtga9pmm7.gz
-C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\dxqj2xv6zo-{0}-o846f5kr9q-o846f5kr9q.gz
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\WebApplication2.sourcelink.json
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\zt0mdot0v5-{0}-hp0deh3kq6-hp0deh3kq6.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\dxqj2xv6zo-{0}-zotn7z0l2k-zotn7z0l2k.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\4rruubm09h-{0}-ojjqlubm6z-ojjqlubm6z.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\388d1pow11-{0}-y08wv4m8v1-y08wv4m8v1.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\yf7ufbxc4c-{0}-0p4532fca2-0p4532fca2.gz
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\obj\Debug\net10.0\compressed\efx946f3rz-{0}-5mtr3jkcyb-5mtr3jkcyb.gz

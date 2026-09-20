@@ -147,19 +147,6 @@
     }
 }
 
-/* Тост-уведомления */
-.toast-message {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    font-size: 0.9rem;
-}
-
-    .toast-message.toast-hide {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
 /* Кнопка «В корзину» в состоянии "Добавлено" */
 .add-to-cart.btn-success {
     pointer-events: none;

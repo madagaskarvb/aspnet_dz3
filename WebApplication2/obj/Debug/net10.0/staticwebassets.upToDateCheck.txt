@@ -2,6 +2,10 @@ wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\HPIM0050w300.jpg
 wwwroot\img\logo.svg
+wwwroot\js\cart.js
+wwwroot\js\infinite.js
+wwwroot\js\product-modal.js
+wwwroot\js\search.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -65,6 +69,10 @@ wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\css\site.css
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\favicon.ico
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\img\logo.svg
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\js\cart.js
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\js\infinite.js
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\js\search.js
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\js\site.js
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -125,4 +133,4 @@ C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\jquery\d
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\lib\jquery\LICENSE.txt
-C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\img\logo.svg
+C:\Users\ivane\source\repos\WebApplication2\WebApplication2\wwwroot\js\product-modal.js

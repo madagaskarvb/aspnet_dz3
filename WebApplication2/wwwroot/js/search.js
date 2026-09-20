@@ -1,24 +1,28 @@
 ﻿// ================================================================
-// Live-поиск по каталогу через fetch (без jQuery, только vanilla JS)
+// search.js — Live-поиск по каталогу через fetch (vanilla JS)
+// + синхронизация с бесконечной прокруткой (infinite.js)
 // ================================================================
 
 document.addEventListener('DOMContentLoaded', function () {
 
     const input = document.getElementById('searchInput');
     const grid = document.getElementById('catalogGrid');
+    const clearBtn = document.getElementById('searchClear');
 
     // Если мы не на странице каталога — ничего не делаем
     if (!input || !grid) return;
 
     let timeoutId = null;
 
-    // ---------- Обработчик ввода с дебаунсом ----------
+    // ----------------------------------------------------------
+    // 1. Обработчик ввода с дебаунсом
+    // ----------------------------------------------------------
     input.addEventListener('input', function () {
         clearTimeout(timeoutId);
 
         const query = input.value.trim();
 
-        // Если ввели 0–1 символ — показываем весь каталог (без перезагрузки)
+        // Пустой запрос или 1 символ — показываем все товары
         if (query.length < 2) {
             timeoutId = setTimeout(function () {
                 loadAllProducts();
@@ -26,13 +30,27 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Иначе — ждём 300 мс после последнего нажатия и шлём запрос
+        // Иначе — ждём 300 мс и шлём запрос
         timeoutId = setTimeout(function () {
             searchProducts(query);
         }, 300);
     });
 
-    // ---------- Загрузка всех товаров (пустой query) ----------
+    // ----------------------------------------------------------
+    // 2. Кнопка «Очистить»
+    // ----------------------------------------------------------
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+            input.value = '';
+            clearTimeout(timeoutId);
+            loadAllProducts();
+            input.focus();
+        });
+    }
+
+    // ----------------------------------------------------------
+    // 3. Загрузка всех товаров (пустой query)
+    // ----------------------------------------------------------
     async function loadAllProducts() {
         grid.innerHTML =
             '<div class="text-center py-5">' +
@@ -46,17 +64,34 @@ document.addEventListener('DOMContentLoaded', function () {
             const html = await response.text();
             grid.innerHTML = html;
 
-            // Обновим бейдж с количеством (если есть)
+            // Сбрасываем пагинацию — снова работает бесконечная прокрутка
+            if (window.catalogPagination) {
+                window.catalogPagination.reset();
+            }
+
+            // Снова подключаем observer, если был отключён
+            if (window.catalogObserver && window.catalogPagination?.hasMore) {
+                const sentinel = document.getElementById('sentinel');
+                if (sentinel) {
+                    // observer.unobserve + observe — безопасный "перезапуск"
+                    try { window.catalogObserver.observe(sentinel); } catch (e) { /* уже наблюдает */ }
+                }
+            }
+
             updateProductCountBadge();
+
         } catch (error) {
-            grid.innerHTML = '<div class="alert alert-danger">Ошибка загрузки каталога</div>';
-            console.error(error);
+            grid.innerHTML =
+                '<div class="alert alert-danger">Ошибка загрузки каталога</div>';
+            console.error('loadAllProducts error:', error);
         }
     }
 
-    // ---------- Поиск ----------
+    // ----------------------------------------------------------
+    // 4. Поиск
+    // ----------------------------------------------------------
     async function searchProducts(query) {
-        // 1. Показываем спиннер
+        // Спиннер
         grid.innerHTML =
             '<div class="text-center py-5">' +
             '  <div class="spinner-border text-primary" role="status"></div>' +
@@ -64,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
             '</div>';
 
         try {
-            // 2. Отправляем запрос к серверу
             const url = '/Catalog?handler=Search&query=' + encodeURIComponent(query);
             const response = await fetch(url);
 
@@ -72,10 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('HTTP ' + response.status);
             }
 
-            // 3. Читаем HTML из ответа
             const html = await response.text();
 
-            // 4. Смотрим — пустой ответ или нет
+            // Пустой результат или явное «Ничего не найдено»
             if (!html.trim() || html.includes('Ничего не найдено')) {
                 grid.innerHTML =
                     '<div class="alert alert-info text-center">' +
@@ -84,31 +117,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     '»' +
                     '</div>';
             } else {
-                // 5. Вставляем HTML с карточками
                 grid.innerHTML = html;
             }
 
-            // 6. Обновляем бейдж «N товаров»
+            // Отключаем бесконечную прокрутку, пока показаны результаты поиска
+            if (window.catalogPagination) {
+                window.catalogPagination.disable();
+            }
+
             updateProductCountBadge();
 
         } catch (error) {
-            // 7. Показываем ошибку
             grid.innerHTML =
                 '<div class="alert alert-danger">' +
                 '  Ошибка поиска. Попробуйте ещё раз.' +
                 '</div>';
-            console.error('Search error:', error);
+            console.error('searchProducts error:', error);
         }
     }
 
-    // ---------- Подсчёт товаров в текущей выдаче ----------
+    // ----------------------------------------------------------
+    // 5. Бейдж «N товаров» над поиском
+    // ----------------------------------------------------------
     function updateProductCountBadge() {
         const badge = document.getElementById('product-count-badge');
         if (!badge) return;
 
         const cards = grid.querySelectorAll('.product-card');
         const n = cards.length;
-        // Простое склонение: "товар / товара / товаров"
+
         let word = 'товаров';
         if (n % 10 === 1 && n % 100 !== 11) word = 'товар';
         else if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) word = 'товара';
@@ -116,21 +153,12 @@ document.addEventListener('DOMContentLoaded', function () {
         badge.textContent = n + ' ' + word;
     }
 
-    // ---------- Мини-хелпер для безопасной вставки текста ----------
+    // ----------------------------------------------------------
+    // 6. Хелпер: экранирование HTML
+    // ----------------------------------------------------------
     function escapeHtml(str) {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
-    }
-
-    // ---------- Кнопка «Очистить» ----------
-    const clearBtn = document.getElementById('searchClear');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', function () {
-            input.value = '';
-            clearTimeout(timeoutId);
-            loadAllProducts();
-            input.focus();
-        });
     }
 });

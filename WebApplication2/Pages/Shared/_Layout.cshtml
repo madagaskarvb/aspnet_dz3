@@ -6,8 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Витрина товаров</title>
+
+    <!-- Antiforgery-токен для AJAX-запросов -->
     <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
 
+    <!-- CSS -->
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -16,36 +19,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-    <environment include="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/search.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/js/search.min.js" asp-append-version="true"></script>
-    </environment>
-
-    <environment include="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/search.js" asp-append-version="true"></script>
-        <script src="~/js/cart.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/js/search.min.js" asp-append-version="true"></script>
-        <script src="~/js/cart.min.js" asp-append-version="true"></script>
-    </environment>
-
 </head>
-<!-- Контейнер для всплывающих уведомлений -->
-<div id="toastContainer"
-     class="position-fixed bottom-0 end-0 p-3"
-     style="z-index: 1080; max-width: 340px;">
-</div>
 <body>
     <header>
         <!-- ===== NAVBAR ===== -->
@@ -74,17 +48,16 @@
                     <!-- Левая группа ссылок -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Catalog/Index">Каталог</a>
-                            </li>                        </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Cart/Index">
-                                    Корзина
-                                    <span class="badge bg-danger rounded-pill" id="cartBadge">0</span>
-                                </a>
-                            </li>
+                            <a class="nav-link" asp-area="" asp-page="/Catalog/Index">Каталог</a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Админ</a>
+                            <a class="nav-link" asp-area="" asp-page="/Cart/Index">
+                                Корзина
+                                <span class="badge bg-danger rounded-pill" id="cartBadge">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Admin/Index">Админ</a>
                         </li>
                     </ul>
 
@@ -109,6 +82,27 @@
         </div>
     </footer>
 
+    <!-- ===== Контейнер для всплывающих уведомлений (тостов) ===== -->
+    <!-- ===== Bootstrap Toast для уведомлений ===== -->
+    <div class="position-fixed end-0 p-3" style="z-index: 1080; top: 4.5rem;">
+        <div id="cartToast"
+             class="toast align-items-center text-white bg-success border-0"
+             role="alert"
+             aria-live="assertive"
+             aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cartToastText">
+                    Товар добавлен в корзину
+                </div>
+                <button type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"
+                        aria-label="Закрыть"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Скрипты ===== -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <environment include="Development">
@@ -120,6 +114,7 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+    <!-- Сюда страницы могут добавлять свои скрипты через Scripts -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -18,5 +18,35 @@
       "enabled": true,
       "renameFiles": true
     }
+  },
+  {
+    "outputFileName": "wwwroot/js/search.min.js",
+    "inputFiles": [
+      "wwwroot/js/search.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameFiles": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/cart.min.js",
+    "inputFiles": [
+      "wwwroot/js/cart.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameFiles": true
+    }
+  },
+  {
+  "outputFileName": "wwwroot/js/infinite.min.js",
+  "inputFiles": [
+    "wwwroot/js/infinite.js"
+  ],
+  "minify": {
+    "enabled": true,
+    "renameFiles": true
   }
+}
 ]
